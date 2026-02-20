@@ -1,0 +1,71 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  USER
+  ADMIN
+}
+
+enum PropertyType {
+  APARTMENT
+  HOUSE
+  VILLA
+  LAND
+  OFFICE
+  COMMERCIAL
+}
+
+enum PropertyStatus {
+  FOR_SALE
+  FOR_RENT
+}
+
+model User {
+  id        String   @id @default(uuid())
+  name      String
+  email     String   @unique
+  password  String
+  role      UserRole @default(USER)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  properties Property[]
+
+  @@map("users")
+}
+
+model Property {
+  id          String         @id @default(uuid())
+  title       String
+  description String         @db.Text
+  price       Decimal        @db.Decimal(15, 2)
+  type        PropertyType
+  status      PropertyStatus
+  city        String
+  address     String
+  surface     Float
+  rooms       Int
+  bathrooms   Int
+  images      Json
+  featured    Boolean        @default(false)
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+
+  // Relations
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([city])
+  @@index([type])
+  @@index([status])
+  @@index([price])
+  @@index([featured])
+  @@map("properties")
+}
