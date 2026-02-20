@@ -2,7 +2,8 @@
 
 Un marketplace immobilier moderne et professionnel inspiré du luxe et de l'élégance marocaine.
 
-![Logo](https://via.placeholder.com/200x200/d4902a/0a0a0a?text=IV)
+![Villa Style](https://github.com/user-attachments/assets/d418e6cd-513d-4f8b-86a1-05ab37fc453f)
+
 
 ## ✨ Fonctionnalités
 
