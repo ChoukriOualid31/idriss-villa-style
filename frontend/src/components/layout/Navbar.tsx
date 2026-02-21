@@ -35,34 +35,34 @@ export function Navbar() {
       className={cn(
         'fixed top-0 left-0 right-0 z-50 transition-all duration-300',
         isScrolled
-          ? 'bg-dark-950/95 backdrop-blur-md shadow-lg shadow-black/20'
+          ? 'bg-dark-950/75 backdrop-blur-xl shadow-lg shadow-black/30'
           : 'bg-transparent'
       )}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
-          <Link href="/" className="flex items-center space-x-3">
-            <div className="w-10 h-10 bg-gradient-to-br from-gold-400 to-gold-600 rounded-lg flex items-center justify-center">
+          <Link href="/" className="group flex items-center space-x-3">
+            <div className="w-10 h-10 bg-gradient-to-br from-gold-300 to-gold-600 rounded-xl flex items-center justify-center shadow-lg shadow-gold-500/25 transition-transform duration-300 group-hover:scale-105">
               <span className="text-dark-950 font-bold text-xl">IV</span>
             </div>
             <div className="hidden sm:block">
-              <span className="text-xl font-serif font-bold text-white">
+              <span className="text-xl font-serif font-semibold tracking-wide text-white">
                 Idriss <span className="text-gold-500">Villa</span>
               </span>
             </div>
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-1">
+          <div className="hidden md:flex items-center space-x-1 surface-panel rounded-2xl p-1.5">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
                 className={cn(
-                  'px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200',
+                  'px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200',
                   isActive(link.href)
-                    ? 'text-gold-500 bg-gold-500/10'
+                    ? 'text-gold-400 bg-gold-500/12 shadow-inner'
                     : 'text-gray-300 hover:text-white hover:bg-white/5'
                 )}
               >
@@ -105,7 +105,7 @@ export function Navbar() {
                 </Link>
                 <Link
                   href="/register"
-                  className="px-5 py-2 bg-gradient-to-r from-gold-600 to-gold-500 text-dark-950 text-sm font-semibold rounded-lg hover:from-gold-500 hover:to-gold-400 transition-all"
+                  className="px-5 py-2 bg-gradient-to-r from-gold-600 to-gold-400 text-dark-950 text-sm font-semibold rounded-xl hover:from-gold-500 hover:to-gold-300 transition-all shadow-lg shadow-gold-500/25"
                 >
                   S&apos;inscrire
                 </Link>

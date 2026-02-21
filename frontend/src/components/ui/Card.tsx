@@ -13,8 +13,8 @@ export function Card({ children, className, hover = false }: CardProps) {
   return (
     <div
       className={cn(
-        'bg-dark-800 rounded-xl overflow-hidden border border-dark-700',
-        hover && 'transition-all duration-300 hover:shadow-xl hover:shadow-gold-500/10 hover:border-gold-500/30 hover:-translate-y-1',
+        'bg-dark-900/80 rounded-2xl overflow-hidden border border-dark-700/80',
+        hover && 'transition-all duration-300 hover:shadow-2xl hover:shadow-gold-500/10 hover:border-gold-500/35 hover:-translate-y-1',
         className
       )}
     >
@@ -29,7 +29,7 @@ export function CardImage({ src, alt, className }: { src: string; alt: string; c
       <img
         src={src}
         alt={alt}
-        className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
+        className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
       />
     </div>
   );

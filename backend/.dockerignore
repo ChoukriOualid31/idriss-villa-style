@@ -1,0 +1,12 @@
+node_modules
+npm-debug.log
+.env
+.env.*
+!.env.example
+uploads/properties/*
+!uploads/.gitkeep
+prisma/migrations/dev.db
+*.log
+.git
+.gitignore
+README.md

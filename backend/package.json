@@ -22,7 +22,7 @@
   "author": "Idriss Villa Style",
   "license": "MIT",
   "dependencies": {
-    "@prisma/client": "^5.7.0",
+    "@prisma/client": "5.22.0",
     "bcryptjs": "^2.4.3",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
@@ -39,7 +39,7 @@
   },
   "devDependencies": {
     "nodemon": "^3.1.9",
-    "prisma": "^6.3.1"
+    "prisma": "5.22.0"
   },
   "prisma": {
     "seed": "node prisma/seed.js"

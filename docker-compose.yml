@@ -1,0 +1,4 @@
+﻿# Docker disabled temporarily for local-only testing.
+# Restore your previous compose file when you want to run containers again.
+
+services: {}

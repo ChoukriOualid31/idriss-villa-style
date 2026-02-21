@@ -2,6 +2,20 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --bg-ink: #07090d;
+  --bg-ink-soft: #0f141d;
+  --surface: rgba(19, 24, 34, 0.65);
+  --surface-border: rgba(212, 144, 42, 0.18);
+}
+
+body {
+  background:
+    radial-gradient(1200px 600px at 10% -10%, rgba(212, 144, 42, 0.12), transparent 60%),
+    radial-gradient(900px 520px at 90% 0%, rgba(103, 126, 234, 0.13), transparent 62%),
+    linear-gradient(180deg, var(--bg-ink) 0%, var(--bg-ink-soft) 45%, #090b0f 100%);
+}
+
 /* Custom scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
@@ -81,6 +95,28 @@ html {
   }
 }
 
+@keyframes softReveal {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes pulseLine {
+  0%, 100% {
+    opacity: 0.35;
+    transform: scaleX(0.95);
+  }
+  50% {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+}
+
 .animate-fade-in {
   animation: fadeIn 0.5s ease-in-out;
 }
@@ -107,4 +143,30 @@ html {
 /* Gold glow */
 .gold-glow {
   box-shadow: 0 0 20px rgba(212, 144, 42, 0.3);
+}
+
+.surface-panel {
+  background: var(--surface);
+  border: 1px solid var(--surface-border);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.soft-reveal {
+  animation: softReveal 0.6s ease-out both;
+}
+
+.pulse-line {
+  animation: pulseLine 2.8s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
