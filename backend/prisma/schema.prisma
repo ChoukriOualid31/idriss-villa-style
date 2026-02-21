@@ -3,8 +3,50 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model User {
+  id         String     @id @default(uuid()) @db.Uuid
+  name       String
+  email      String     @unique
+  password   String
+  role       UserRole   @default(USER)
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
+  properties Property[]
+
+  @@map("users")
+}
+
+model Property {
+  id          String         @id @default(uuid()) @db.Uuid
+  title       String
+  description String         @db.Text
+  price       Decimal        @db.Decimal(15, 2)
+  type        PropertyType
+  status      PropertyStatus
+  city        String
+  address     String
+  surface     Float
+  rooms       Int
+  bathrooms   Int
+  images      Json           @db.JsonB
+  featured    Boolean        @default(false)
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+  userId      String         @db.Uuid
+  user        User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([city])
+  @@index([type])
+  @@index([status])
+  @@index([price])
+  @@index([featured])
+  @@index([userId])
+  @@map("properties")
 }
 
 enum UserRole {
@@ -24,48 +66,4 @@ enum PropertyType {
 enum PropertyStatus {
   FOR_SALE
   FOR_RENT
-}
-
-model User {
-  id        String   @id @default(uuid())
-  name      String
-  email     String   @unique
-  password  String
-  role      UserRole @default(USER)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  // Relations
-  properties Property[]
-
-  @@map("users")
-}
-
-model Property {
-  id          String         @id @default(uuid())
-  title       String
-  description String         @db.Text
-  price       Decimal        @db.Decimal(15, 2)
-  type        PropertyType
-  status      PropertyStatus
-  city        String
-  address     String
-  surface     Float
-  rooms       Int
-  bathrooms   Int
-  images      Json
-  featured    Boolean        @default(false)
-  createdAt   DateTime       @default(now())
-  updatedAt   DateTime       @updatedAt
-
-  // Relations
-  userId String
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@index([city])
-  @@index([type])
-  @@index([status])
-  @@index([price])
-  @@index([featured])
-  @@map("properties")
 }
