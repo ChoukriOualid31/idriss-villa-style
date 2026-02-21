@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { Suspense, useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { PropertyGrid } from '@/components/property/PropertyGrid';
 import { PropertyFilters } from '@/components/property/PropertyFilters';
@@ -8,8 +8,9 @@ import { useProperties } from '@/hooks/useProperties';
 import { Button } from '@/components/ui/Button';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { propertyApi } from '@/lib/api';
+import { PropertyType } from '@/types';
 
-export default function PropertiesPage() {
+function PropertiesPageContent() {
   const searchParams = useSearchParams();
   const [cities, setCities] = useState<string[]>([]);
   
@@ -41,6 +42,16 @@ export default function PropertiesPage() {
     fetchCities();
   }, []);
 
+  const typeTabs: { label: string; value?: PropertyType }[] = [
+    { label: 'All' },
+    { label: 'Villa', value: 'VILLA' },
+    { label: 'Maison', value: 'HOUSE' },
+    { label: 'Terrain', value: 'LAND' },
+    { label: 'Appartement', value: 'APARTMENT' },
+    { label: 'Bureau', value: 'OFFICE' },
+    { label: 'Commercial', value: 'COMMERCIAL' },
+  ];
+
   return (
     <div className="min-h-screen bg-dark-950">
       {/* Header */}
@@ -66,6 +77,28 @@ export default function PropertiesPage() {
             onReset={resetFilters}
             cities={cities}
           />
+        </div>
+
+        {/* Quick Type Tabs */}
+        <div className="mb-6">
+          <div className="flex flex-wrap gap-2">
+            {typeTabs.map((tab) => {
+              const active = (filters.type || undefined) === tab.value;
+              return (
+                <button
+                  key={tab.label}
+                  onClick={() => updateFilters({ type: tab.value })}
+                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+                    active
+                      ? 'bg-gold-500 text-dark-950'
+                      : 'bg-dark-800 text-gray-300 border border-dark-700 hover:bg-dark-700 hover:text-white'
+                  }`}
+                >
+                  {tab.label}
+                </button>
+              );
+            })}
+          </div>
         </div>
 
         {/* Results Count */}
@@ -136,5 +169,13 @@ export default function PropertiesPage() {
         )}
       </div>
     </div>
+  );
+}
+
+export default function PropertiesPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-dark-950" />}>
+      <PropertiesPageContent />
+    </Suspense>
   );
 }

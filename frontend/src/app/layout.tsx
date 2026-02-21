@@ -1,12 +1,16 @@
 import type { Metadata } from 'next';
-import { Inter, Playfair_Display } from 'next/font/google';
+import { Cormorant_Garamond, Manrope } from 'next/font/google';
 import './globals.css';
 import { AuthProvider } from '@/contexts/AuthContext';
 import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
 
-const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
-const playfair = Playfair_Display({ subsets: ['latin'], variable: '--font-playfair' });
+const manrope = Manrope({ subsets: ['latin'], variable: '--font-sans' });
+const cormorant = Cormorant_Garamond({
+  subsets: ['latin'],
+  variable: '--font-serif',
+  weight: ['500', '600', '700'],
+});
 
 export const metadata: Metadata = {
   title: 'Idriss Villa Style | Immobilier de Luxe',
@@ -20,8 +24,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="fr" className={`${inter.variable} ${playfair.variable}`}>
-      <body className="font-sans bg-dark-950 text-white min-h-screen">
+    <html lang="fr" className={`${manrope.variable} ${cormorant.variable}`}>
+      <body className="font-sans bg-dark-950 text-white min-h-screen antialiased">
         <AuthProvider>
           <Navbar />
           <main className="pt-20">
