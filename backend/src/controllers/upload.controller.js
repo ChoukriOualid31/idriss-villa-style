@@ -1,5 +1,6 @@
 const path = require('path');
 const fs = require('fs');
+const { uploadBuffer, deleteByPublicId, publicIdFromUrl } = require('../services/cloudinary.service');
 
 const isServerless = Boolean(process.env.VERCEL);
 
@@ -7,7 +8,7 @@ const isServerless = Boolean(process.env.VERCEL);
  * Upload single image
  * POST /api/upload/image
  */
-const uploadImage = (req, res) => {
+const uploadImage = async (req, res) => {
   if (!req.file) {
     return res.status(400).json({
       status: 'error',
@@ -15,17 +16,31 @@ const uploadImage = (req, res) => {
     });
   }
 
-  // In serverless (Vercel) the file is in memory only — disk storage unavailable.
-  // Integrate Cloudinary or Vercel Blob for persistent image hosting in production.
-  if (isServerless || !req.file.filename) {
-    return res.status(503).json({
-      status: 'error',
-      message: 'Le stockage de fichiers local n est pas disponible en production. Utilisez un service de stockage cloud (Cloudinary, S3…).',
-    });
+  // Production (Vercel): file is in memory buffer — upload to Cloudinary
+  if (isServerless) {
+    try {
+      const { url, publicId } = await uploadBuffer(req.file.buffer, req.file.originalname);
+      return res.status(200).json({
+        status: 'success',
+        message: 'Image téléchargée avec succès',
+        data: {
+          filename: publicId,
+          url,
+          originalName: req.file.originalname,
+          size: req.file.size,
+        },
+      });
+    } catch (err) {
+      console.error('Cloudinary upload error:', err);
+      return res.status(500).json({
+        status: 'error',
+        message: 'Erreur lors du téléchargement vers Cloudinary.',
+      });
+    }
   }
 
+  // Development: file saved on disk
   const imageUrl = `${req.protocol}://${req.get('host')}/uploads/properties/${req.file.filename}`;
-
   res.status(200).json({
     status: 'success',
     message: 'Image téléchargée avec succès',
@@ -42,7 +57,7 @@ const uploadImage = (req, res) => {
  * Upload multiple images
  * POST /api/upload/images
  */
-const uploadImages = (req, res) => {
+const uploadImages = async (req, res) => {
   if (!req.files || req.files.length === 0) {
     return res.status(400).json({
       status: 'error',
@@ -50,14 +65,34 @@ const uploadImages = (req, res) => {
     });
   }
 
-  if (isServerless || !req.files[0].filename) {
-    return res.status(503).json({
-      status: 'error',
-      message: 'Le stockage de fichiers local n est pas disponible en production. Utilisez un service de stockage cloud (Cloudinary, S3…).',
-    });
+  // Production: upload each file to Cloudinary
+  if (isServerless) {
+    try {
+      const uploaded = await Promise.all(
+        req.files.map((file) => uploadBuffer(file.buffer, file.originalname))
+      );
+      const images = uploaded.map((result, i) => ({
+        filename: result.publicId,
+        url: result.url,
+        originalName: req.files[i].originalname,
+        size: req.files[i].size,
+      }));
+      return res.status(200).json({
+        status: 'success',
+        message: `${images.length} image(s) téléchargée(s) avec succès`,
+        data: { images },
+      });
+    } catch (err) {
+      console.error('Cloudinary upload error:', err);
+      return res.status(500).json({
+        status: 'error',
+        message: 'Erreur lors du téléchargement vers Cloudinary.',
+      });
+    }
   }
 
-  const uploadedFiles = req.files.map(file => ({
+  // Development: files saved on disk
+  const uploadedFiles = req.files.map((file) => ({
     filename: file.filename,
     url: `${req.protocol}://${req.get('host')}/uploads/properties/${file.filename}`,
     originalName: file.originalname,
@@ -67,9 +102,7 @@ const uploadImages = (req, res) => {
   res.status(200).json({
     status: 'success',
     message: `${req.files.length} image(s) téléchargée(s) avec succès`,
-    data: {
-      images: uploadedFiles,
-    },
+    data: { images: uploadedFiles },
   });
 };
 
@@ -77,44 +110,47 @@ const uploadImages = (req, res) => {
  * Delete uploaded image
  * DELETE /api/upload/image/:filename
  */
-const deleteImage = (req, res) => {
+const deleteImage = async (req, res) => {
   const { filename } = req.params;
 
-  // Security: prevent directory traversal
+  // Production: delete from Cloudinary using public_id or URL
+  if (isServerless) {
+    try {
+      // filename param can be a full Cloudinary URL or a public_id
+      const publicId = filename.startsWith('http')
+        ? publicIdFromUrl(decodeURIComponent(filename))
+        : decodeURIComponent(filename);
+
+      if (!publicId) {
+        return res.status(400).json({ status: 'error', message: 'Identifiant image invalide.' });
+      }
+
+      await deleteByPublicId(publicId);
+      return res.status(200).json({ status: 'success', message: 'Image supprimée avec succès' });
+    } catch (err) {
+      console.error('Cloudinary delete error:', err);
+      return res.status(500).json({ status: 'error', message: 'Erreur lors de la suppression.' });
+    }
+  }
+
+  // Development: delete from local disk
   if (filename.includes('..') || filename.includes('/')) {
-    return res.status(400).json({
-      status: 'error',
-      message: 'Nom de fichier invalide',
-    });
+    return res.status(400).json({ status: 'error', message: 'Nom de fichier invalide' });
   }
 
   const filePath = path.join(__dirname, '../../uploads/properties', filename);
 
   if (!fs.existsSync(filePath)) {
-    return res.status(404).json({
-      status: 'error',
-      message: 'Fichier non trouvé',
-    });
+    return res.status(404).json({ status: 'error', message: 'Fichier non trouvé' });
   }
 
   try {
     fs.unlinkSync(filePath);
-
-    res.status(200).json({
-      status: 'success',
-      message: 'Image supprimée avec succès',
-    });
+    res.status(200).json({ status: 'success', message: 'Image supprimée avec succès' });
   } catch (error) {
     console.error('Error deleting image:', error);
-    res.status(500).json({
-      status: 'error',
-      message: 'Erreur lors de la suppression de l\'image',
-    });
+    res.status(500).json({ status: 'error', message: "Erreur lors de la suppression de l'image" });
   }
 };
 
-module.exports = {
-  uploadImage,
-  uploadImages,
-  deleteImage,
-};
+module.exports = { uploadImage, uploadImages, deleteImage };
