@@ -1,15 +1,37 @@
 ﻿'use client';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { MapPin, Phone, Mail, Instagram, Facebook } from 'lucide-react';
+import { siteContentApi } from '@/lib/api';
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
 
+  const [socialLinks, setSocialLinks] = useState({
+    instagramUrl: 'https://instagram.com',
+    facebookUrl: 'https://facebook.com',
+    whatsappUrl: 'https://wa.me/212600000000',
+  });
+
+  useEffect(() => {
+    siteContentApi.getPublic().then((res) => {
+      const content = res.data?.data?.content;
+      if (content) {
+        setSocialLinks({
+          instagramUrl: content.instagramUrl || 'https://instagram.com',
+          facebookUrl: content.facebookUrl || 'https://facebook.com',
+          whatsappUrl: content.whatsappUrl || 'https://wa.me/212600000000',
+        });
+      }
+    }).catch(() => {});
+  }, []);
+
   const quickLinks = [
     { href: '/', label: 'Accueil' },
     { href: '/properties', label: 'Nos Biens' },
+    { href: '/about', label: 'A propos' },
     { href: '/contact', label: 'Contact' },
   ];
 
@@ -29,8 +51,14 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           <div className="space-y-4 soft-reveal">
             <Link href="/" className="flex items-center space-x-3">
-              <div className="w-12 h-12 bg-gradient-to-br from-gold-300 to-gold-600 rounded-xl flex items-center justify-center shadow-lg shadow-gold-500/20">
-                <span className="text-dark-950 font-bold text-2xl">IV</span>
+              <div className="w-12 h-12 rounded-xl overflow-hidden shadow-lg shadow-gold-500/20 ring-1 ring-gold-500/30">
+                <Image
+                  src="/logo-villa-style.jpeg"
+                  alt="Idriss Villa Style"
+                  width={48}
+                  height={48}
+                  className="w-full h-full object-cover"
+                />
               </div>
               <div>
                 <span className="text-2xl font-serif font-semibold text-white block">
@@ -47,7 +75,7 @@ export function Footer() {
 
             <div className="flex space-x-4">
               <a
-                href="https://instagram.com"
+                href={socialLinks.instagramUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 bg-dark-800 rounded-lg flex items-center justify-center text-gray-400 hover:bg-gold-500 hover:text-dark-950 transition-all hover:-translate-y-0.5"
@@ -55,7 +83,7 @@ export function Footer() {
                 <Instagram className="w-5 h-5" />
               </a>
               <a
-                href="https://facebook.com"
+                href={socialLinks.facebookUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 bg-dark-800 rounded-lg flex items-center justify-center text-gray-400 hover:bg-gold-500 hover:text-dark-950 transition-all hover:-translate-y-0.5"
@@ -63,7 +91,7 @@ export function Footer() {
                 <Facebook className="w-5 h-5" />
               </a>
               <a
-                href="https://wa.me/212600000000"
+                href={socialLinks.whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 bg-dark-800 rounded-lg flex items-center justify-center text-gray-400 hover:bg-gold-500 hover:text-dark-950 transition-all hover:-translate-y-0.5"

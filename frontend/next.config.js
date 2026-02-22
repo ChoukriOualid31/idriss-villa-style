@@ -14,7 +14,7 @@ const nextConfig = {
     return [
       {
         source: '/api/:path*',
-        destination: `${process.env.INTERNAL_API_URL || 'http://localhost:5000/api'}/:path*`,
+        destination: `${process.env.INTERNAL_API_URL || 'https://idriss-villa-api.onrender.com/api'}/:path*`,
       },
     ];
   },

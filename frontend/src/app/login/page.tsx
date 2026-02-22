@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { Eye, EyeOff, Lock, Mail } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
@@ -40,8 +41,15 @@ export default function LoginPage() {
         {/* Logo */}
         <div className="text-center mb-8">
           <Link href="/" className="inline-flex items-center space-x-3">
-            <div className="w-14 h-14 bg-gradient-to-br from-gold-400 to-gold-600 rounded-xl flex items-center justify-center">
-              <span className="text-dark-950 font-bold text-2xl">IV</span>
+            <div className="w-14 h-14 rounded-xl overflow-hidden ring-1 ring-gold-500/30">
+              <Image
+                src="/logo-villa-style.jpeg"
+                alt="Idriss Villa Style"
+                width={56}
+                height={56}
+                className="w-full h-full object-cover"
+                priority
+              />
             </div>
           </Link>
           <h2 className="mt-6 text-3xl font-serif font-bold text-white">

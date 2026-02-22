@@ -1,5 +1,6 @@
 generator client {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "rhel-openssl-1.0.x", "linux-musl-openssl-3.0.x"]
 }
 
 datasource db {
@@ -47,6 +48,23 @@ model Property {
   @@index([featured])
   @@index([userId])
   @@map("properties")
+}
+
+model SiteContent {
+  id                       String   @id @default("global")
+  aboutAdminNote           String   @db.Text
+  contactHeaderTitle       String
+  contactHeaderDescription String   @db.Text
+  contactPhone             String
+  contactEmail             String
+  contactAddress           String   @db.Text
+  contactHours             String
+  instagramUrl             String   @default("")
+  facebookUrl              String   @default("")
+  whatsappUrl              String   @default("")
+  updatedAt                DateTime @updatedAt
+
+  @@map("site_content")
 }
 
 enum UserRole {

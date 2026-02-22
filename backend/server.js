@@ -14,6 +14,7 @@ const authRoutes = require('./src/routes/auth.routes');
 const propertyRoutes = require('./src/routes/property.routes');
 const userRoutes = require('./src/routes/user.routes');
 const uploadRoutes = require('./src/routes/upload.routes');
+const siteContentRoutes = require('./src/routes/siteContent.routes');
 
 // Import error handler
 const { errorHandler } = require('./src/middleware/error.middleware');
@@ -74,6 +75,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/properties', propertyRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/upload', uploadRoutes);
+app.use('/api/site-content', siteContentRoutes);
 
 // Root endpoint
 app.get('/', (req, res) => {
@@ -98,37 +100,21 @@ app.use((req, res) => {
 // Global error handler
 app.use(errorHandler);
 
-// Start server
-app.listen(PORT, () => {
-  console.log(`
-╔════════════════════════════════════════════════════════════╗
-║                                                            ║
-║   🏡 Idriss Villa Style API                                ║
-║   Real Estate Marketplace                                  ║
-║                                                            ║
-║   Server running on port ${PORT}                             ║
-║   Environment: ${process.env.NODE_ENV || 'development'}                                    ║
-║                                                            ║
-║   API Endpoints:                                           ║
-║   • Health Check: http://localhost:${PORT}/health            ║
-║   • Auth: http://localhost:${PORT}/api/auth                  ║
-║   • Properties: http://localhost:${PORT}/api/properties      ║
-║                                                            ║
-╚════════════════════════════════════════════════════════════╝
-  `);
-});
+// Start server only when running directly (not in serverless/Vercel)
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT} - ${process.env.NODE_ENV || 'development'}`);
+  });
 
-// Graceful shutdown
-process.on('SIGTERM', async () => {
-  console.log('SIGTERM received. Closing HTTP server and Prisma client...');
-  await prisma.$disconnect();
-  process.exit(0);
-});
+  process.on('SIGTERM', async () => {
+    await prisma.$disconnect();
+    process.exit(0);
+  });
 
-process.on('SIGINT', async () => {
-  console.log('SIGINT received. Closing HTTP server and Prisma client...');
-  await prisma.$disconnect();
-  process.exit(0);
-});
+  process.on('SIGINT', async () => {
+    await prisma.$disconnect();
+    process.exit(0);
+  });
+}
 
 module.exports = app;
