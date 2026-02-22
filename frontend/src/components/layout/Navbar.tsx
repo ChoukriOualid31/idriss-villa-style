@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { Menu, X, User, LogOut, Home, Building, Phone } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
@@ -43,8 +44,15 @@ export function Navbar() {
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
           <Link href="/" className="group flex items-center space-x-3">
-            <div className="w-10 h-10 bg-gradient-to-br from-gold-300 to-gold-600 rounded-xl flex items-center justify-center shadow-lg shadow-gold-500/25 transition-transform duration-300 group-hover:scale-105">
-              <span className="text-dark-950 font-bold text-xl">IV</span>
+            <div className="w-10 h-10 rounded-xl overflow-hidden shadow-lg shadow-gold-500/25 transition-transform duration-300 group-hover:scale-105 ring-1 ring-gold-500/30">
+              <Image
+                src="/logo-villa-style.jpeg"
+                alt="Idriss Villa Style"
+                width={40}
+                height={40}
+                className="w-full h-full object-cover"
+                priority
+              />
             </div>
             <div className="hidden sm:block">
               <span className="text-xl font-serif font-semibold tracking-wide text-white">
