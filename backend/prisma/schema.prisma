@@ -50,6 +50,23 @@ model Property {
   @@map("properties")
 }
 
+model SiteContent {
+  id                       String   @id @default("global")
+  aboutAdminNote           String   @db.Text
+  contactHeaderTitle       String
+  contactHeaderDescription String   @db.Text
+  contactPhone             String
+  contactEmail             String
+  contactAddress           String   @db.Text
+  contactHours             String
+  instagramUrl             String   @default("")
+  facebookUrl              String   @default("")
+  whatsappUrl              String   @default("")
+  updatedAt                DateTime @updatedAt
+
+  @@map("site_content")
+}
+
 enum UserRole {
   USER
   ADMIN

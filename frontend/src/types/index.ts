@@ -89,3 +89,18 @@ export interface AuthResponse {
   user: User;
   token: string;
 }
+
+export interface SiteContent {
+  id: string;
+  aboutAdminNote: string;
+  contactHeaderTitle: string;
+  contactHeaderDescription: string;
+  contactPhone: string;
+  contactEmail: string;
+  contactAddress: string;
+  contactHours: string;
+  instagramUrl: string;
+  facebookUrl: string;
+  whatsappUrl: string;
+  updatedAt: string;
+}
