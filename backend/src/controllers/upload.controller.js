@@ -1,7 +1,7 @@
 const path = require('path');
 const fs = require('fs');
 
-const isServerless = process.env.NODE_ENV === 'production' || process.env.VERCEL;
+const isServerless = Boolean(process.env.VERCEL);
 
 /**
  * Upload single image
