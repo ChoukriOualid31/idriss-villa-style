@@ -3,7 +3,7 @@ const path = require('path');
 const { v4: uuidv4 } = require('uuid');
 const fs = require('fs');
 
-const isServerless = process.env.NODE_ENV === 'production' || process.env.VERCEL;
+const isServerless = Boolean(process.env.VERCEL);
 
 // Upload directories (only relevant in local/dev)
 const uploadDirs = {
