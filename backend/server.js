@@ -34,8 +34,25 @@ app.use(helmet({
 }));
 
 // CORS configuration
+const configuredOrigins = (process.env.FRONTEND_URL || 'http://localhost:3000')
+  .split(',')
+  .map((origin) => origin.trim())
+  .filter(Boolean);
+
 app.use(cors({
-  origin: process.env.FRONTEND_URL || 'http://localhost:3000',
+  origin: (origin, callback) => {
+    // Allow server-to-server requests and tools without Origin header
+    if (!origin) return callback(null, true);
+
+    const isConfigured = configuredOrigins.includes(origin);
+    const isVercelPreview = origin.endsWith('.vercel.app');
+
+    if (isConfigured || isVercelPreview) {
+      return callback(null, true);
+    }
+
+    return callback(new Error('Not allowed by CORS'));
+  },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
