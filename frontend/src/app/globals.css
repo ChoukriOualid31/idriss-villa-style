@@ -176,6 +176,33 @@ html {
   animation: logoDrift 7s ease-in-out infinite;
 }
 
+/* Logo background pattern */
+.bg-logo-pattern {
+  background-image: url('/logo-villa-style.jpeg');
+  background-repeat: repeat;
+  background-size: 120px 120px;
+}
+
+/* Logo orb (floating circle) */
+.logo-orb {
+  background-image: url('/logo-villa-style.jpeg');
+  background-size: cover;
+  background-position: center;
+}
+
+/* Animation delay utilities for soft-reveal */
+.reveal-delay-70  { animation-delay: 70ms; }
+.reveal-delay-80  { animation-delay: 80ms; }
+.reveal-delay-100 { animation-delay: 100ms; }
+.reveal-delay-120 { animation-delay: 120ms; }
+.reveal-delay-140 { animation-delay: 140ms; }
+.reveal-delay-160 { animation-delay: 160ms; }
+.reveal-delay-210 { animation-delay: 210ms; }
+
+/* Logo orb animation delays */
+.orb-delay-1 { animation-delay: 1.4s; }
+.orb-delay-2 { animation-delay: 2.8s; }
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

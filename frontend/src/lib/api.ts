@@ -131,7 +131,7 @@ export const uploadApi = {
 };
 
 export const siteContentApi = {
-  getPublic: () => api.get<{ content: SiteContent }>('/site-content/public'),
+  getPublic: () => api.get<{ status: string; data: { content: SiteContent } }>('/site-content/public'),
   updateAdmin: (data: Partial<SiteContent>) => api.patch('/site-content/admin', data),
 };
 
