@@ -98,37 +98,21 @@ app.use((req, res) => {
 // Global error handler
 app.use(errorHandler);
 
-// Start server
-app.listen(PORT, () => {
-  console.log(`
-╔════════════════════════════════════════════════════════════╗
-║                                                            ║
-║   🏡 Idriss Villa Style API                                ║
-║   Real Estate Marketplace                                  ║
-║                                                            ║
-║   Server running on port ${PORT}                             ║
-║   Environment: ${process.env.NODE_ENV || 'development'}                                    ║
-║                                                            ║
-║   API Endpoints:                                           ║
-║   • Health Check: http://localhost:${PORT}/health            ║
-║   • Auth: http://localhost:${PORT}/api/auth                  ║
-║   • Properties: http://localhost:${PORT}/api/properties      ║
-║                                                            ║
-╚════════════════════════════════════════════════════════════╝
-  `);
-});
+// Start server only when running directly (not in serverless/Vercel)
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT} - ${process.env.NODE_ENV || 'development'}`);
+  });
 
-// Graceful shutdown
-process.on('SIGTERM', async () => {
-  console.log('SIGTERM received. Closing HTTP server and Prisma client...');
-  await prisma.$disconnect();
-  process.exit(0);
-});
+  process.on('SIGTERM', async () => {
+    await prisma.$disconnect();
+    process.exit(0);
+  });
 
-process.on('SIGINT', async () => {
-  console.log('SIGINT received. Closing HTTP server and Prisma client...');
-  await prisma.$disconnect();
-  process.exit(0);
-});
+  process.on('SIGINT', async () => {
+    await prisma.$disconnect();
+    process.exit(0);
+  });
+}
 
 module.exports = app;
