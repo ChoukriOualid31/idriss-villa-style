@@ -14,6 +14,7 @@ const authRoutes = require('./src/routes/auth.routes');
 const propertyRoutes = require('./src/routes/property.routes');
 const userRoutes = require('./src/routes/user.routes');
 const uploadRoutes = require('./src/routes/upload.routes');
+const siteContentRoutes = require('./src/routes/siteContent.routes');
 
 // Import error handler
 const { errorHandler } = require('./src/middleware/error.middleware');
@@ -74,6 +75,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/properties', propertyRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/upload', uploadRoutes);
+app.use('/api/site-content', siteContentRoutes);
 
 // Root endpoint
 app.get('/', (req, res) => {

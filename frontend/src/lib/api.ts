@@ -1,5 +1,6 @@
 import axios, { AxiosError, AxiosInstance } from 'axios';
 import Cookies from 'js-cookie';
+import { SiteContent } from '@/types';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || '/api';
 
@@ -127,6 +128,11 @@ export const uploadApi = {
   
   deleteImage: (filename: string) =>
     api.delete(`/upload/image/${filename}`),
+};
+
+export const siteContentApi = {
+  getPublic: () => api.get<{ content: SiteContent }>('/site-content/public'),
+  updateAdmin: (data: Partial<SiteContent>) => api.patch('/site-content/admin', data),
 };
 
 export default api;

@@ -14,8 +14,13 @@ const cormorant = Cormorant_Garamond({
 
 export const metadata: Metadata = {
   title: 'Idriss Villa Style | Immobilier de Luxe',
-  description: 'Votre partenaire de confiance pour trouver la propriété de vos rêves au Maroc. Villas, appartements, terrains et plus.',
+  description: 'Votre partenaire de confiance pour trouver la propriete de vos reves au Maroc. Villas, appartements, terrains et plus.',
   keywords: 'immobilier, maroc, tanger, villa, appartement, terrain, luxe, achat, location',
+  icons: {
+    icon: '/logo-villa-style.jpeg',
+    shortcut: '/logo-villa-style.jpeg',
+    apple: '/logo-villa-style.jpeg',
+  },
 };
 
 export default function RootLayout({

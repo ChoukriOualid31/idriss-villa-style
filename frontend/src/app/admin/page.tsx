@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { 
   Building, Users, TrendingUp, DollarSign, 
-  Plus, ArrowRight, Home, User 
+  Plus, ArrowRight, Home, User, FileText
 } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { userApi } from '@/lib/api';
@@ -166,6 +166,28 @@ export default function AdminDashboard() {
                   </h3>
                   <p className="text-gray-400 text-sm">
                     Voir et gérer les comptes utilisateurs
+                  </p>
+                </div>
+              </div>
+              <ArrowRight className="w-5 h-5 text-gray-500 group-hover:text-gold-500 transition-colors" />
+            </div>
+          </Link>
+
+          <Link
+            href="/admin/content"
+            className="bg-dark-800 rounded-xl p-6 border border-dark-700 hover:border-gold-500/50 transition-colors group md:col-span-2"
+          >
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-4">
+                <div className="w-14 h-14 bg-gold-500/10 rounded-lg flex items-center justify-center">
+                  <FileText className="w-7 h-7 text-gold-500" />
+                </div>
+                <div>
+                  <h3 className="text-lg font-semibold text-white group-hover:text-gold-500 transition-colors">
+                    Modifier pages A propos & Contact
+                  </h3>
+                  <p className="text-gray-400 text-sm">
+                    Editez les contenus publics sans revenir au code
                   </p>
                 </div>
               </div>

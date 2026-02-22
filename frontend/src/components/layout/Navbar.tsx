@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
-import { Menu, X, User, LogOut, Home, Building, Phone } from 'lucide-react';
+import { Menu, X, User, LogOut, Home, Building, Phone, Info } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { cn } from '@/lib/utils';
 
@@ -26,6 +26,7 @@ export function Navbar() {
   const navLinks = [
     { href: '/', label: 'Accueil', icon: Home },
     { href: '/properties', label: 'Nos Biens', icon: Building },
+    { href: '/about', label: 'A propos', icon: Info },
     { href: '/contact', label: 'Contact', icon: Phone },
   ];
 
