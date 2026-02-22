@@ -24,6 +24,7 @@ function PropertiesPageContent() {
     properties,
     pagination,
     isLoading,
+    error,
     filters,
     fetchProperties,
     updateFilters,
@@ -114,6 +115,11 @@ function PropertiesPageContent() {
               </>
             )}
           </p>
+          {error && (
+            <p className="mt-2 text-sm text-red-400">
+              {error}
+            </p>
+          )}
         </div>
 
         {/* Properties Grid */}

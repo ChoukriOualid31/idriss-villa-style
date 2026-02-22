@@ -30,9 +30,22 @@ api.interceptors.response.use(
   (response) => response,
   (error: AxiosError) => {
     if (error.response?.status === 401) {
-      // Clear token and redirect to login
+      const requestUrl = error.config?.url || '';
+      const publicReadEndpoints = [
+        '/properties',
+        '/properties/featured',
+        '/properties/filters/cities',
+        '/site-content/public',
+      ];
+
+      const isPublicRead = publicReadEndpoints.some((endpoint) => requestUrl.startsWith(endpoint));
+      const isAuthCheck = requestUrl.startsWith('/auth/me');
+
+      // Always clear invalid token
       Cookies.remove('token');
-      if (typeof window !== 'undefined') {
+
+      // Do not force redirect for public endpoints or initial auth check
+      if (typeof window !== 'undefined' && !isPublicRead && !isAuthCheck) {
         window.location.href = '/login';
       }
     }
