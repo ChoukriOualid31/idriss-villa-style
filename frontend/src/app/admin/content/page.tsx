@@ -143,8 +143,9 @@ export default function AdminContentPage() {
         <form onSubmit={handleSave} className="space-y-6">
           <section className="bg-dark-800 rounded-xl p-6 border border-dark-700">
             <h2 className="text-xl font-semibold text-white mb-4">A propos</h2>
-            <label className="block text-sm text-gray-300 mb-2">Note admin affichee sur la page A propos</label>
+            <label htmlFor="aboutAdminNote" className="block text-sm text-gray-300 mb-2">Note admin affichee sur la page A propos</label>
             <textarea
+              id="aboutAdminNote"
               rows={3}
               value={form.aboutAdminNote}
               onChange={handleChange('aboutAdminNote')}
@@ -156,8 +157,9 @@ export default function AdminContentPage() {
             <h2 className="text-xl font-semibold text-white">Contact</h2>
 
             <div>
-              <label className="block text-sm text-gray-300 mb-2">Titre</label>
+              <label htmlFor="contactHeaderTitle" className="block text-sm text-gray-300 mb-2">Titre</label>
               <input
+                id="contactHeaderTitle"
                 type="text"
                 value={form.contactHeaderTitle}
                 onChange={handleChange('contactHeaderTitle')}
@@ -166,8 +168,9 @@ export default function AdminContentPage() {
             </div>
 
             <div>
-              <label className="block text-sm text-gray-300 mb-2">Description</label>
+              <label htmlFor="contactHeaderDescription" className="block text-sm text-gray-300 mb-2">Description</label>
               <textarea
+                id="contactHeaderDescription"
                 rows={3}
                 value={form.contactHeaderDescription}
                 onChange={handleChange('contactHeaderDescription')}
@@ -177,8 +180,9 @@ export default function AdminContentPage() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm text-gray-300 mb-2">Telephone</label>
+                <label htmlFor="contactPhone" className="block text-sm text-gray-300 mb-2">Telephone</label>
                 <input
+                  id="contactPhone"
                   type="text"
                   value={form.contactPhone}
                   onChange={handleChange('contactPhone')}
@@ -186,8 +190,9 @@ export default function AdminContentPage() {
                 />
               </div>
               <div>
-                <label className="block text-sm text-gray-300 mb-2">Email</label>
+                <label htmlFor="contactEmail" className="block text-sm text-gray-300 mb-2">Email</label>
                 <input
+                  id="contactEmail"
                   type="email"
                   value={form.contactEmail}
                   onChange={handleChange('contactEmail')}
@@ -197,8 +202,9 @@ export default function AdminContentPage() {
             </div>
 
             <div>
-              <label className="block text-sm text-gray-300 mb-2">Adresse</label>
+              <label htmlFor="contactAddress" className="block text-sm text-gray-300 mb-2">Adresse</label>
               <input
+                id="contactAddress"
                 type="text"
                 value={form.contactAddress}
                 onChange={handleChange('contactAddress')}
@@ -207,8 +213,9 @@ export default function AdminContentPage() {
             </div>
 
             <div>
-              <label className="block text-sm text-gray-300 mb-2">Horaires</label>
+              <label htmlFor="contactHours" className="block text-sm text-gray-300 mb-2">Horaires</label>
               <input
+                id="contactHours"
                 type="text"
                 value={form.contactHours}
                 onChange={handleChange('contactHours')}
@@ -221,8 +228,9 @@ export default function AdminContentPage() {
             <h2 className="text-xl font-semibold text-white">Reseaux Sociaux</h2>
 
             <div>
-              <label className="block text-sm text-gray-300 mb-2">Instagram (lien complet)</label>
+              <label htmlFor="instagramUrl" className="block text-sm text-gray-300 mb-2">Instagram (lien complet)</label>
               <input
+                id="instagramUrl"
                 type="url"
                 value={form.instagramUrl}
                 onChange={handleChange('instagramUrl')}
@@ -232,8 +240,9 @@ export default function AdminContentPage() {
             </div>
 
             <div>
-              <label className="block text-sm text-gray-300 mb-2">Facebook (lien complet)</label>
+              <label htmlFor="facebookUrl" className="block text-sm text-gray-300 mb-2">Facebook (lien complet)</label>
               <input
+                id="facebookUrl"
                 type="url"
                 value={form.facebookUrl}
                 onChange={handleChange('facebookUrl')}
@@ -243,8 +252,9 @@ export default function AdminContentPage() {
             </div>
 
             <div>
-              <label className="block text-sm text-gray-300 mb-2">WhatsApp (lien wa.me)</label>
+              <label htmlFor="whatsappUrl" className="block text-sm text-gray-300 mb-2">WhatsApp (lien wa.me)</label>
               <input
+                id="whatsappUrl"
                 type="url"
                 value={form.whatsappUrl}
                 onChange={handleChange('whatsappUrl')}

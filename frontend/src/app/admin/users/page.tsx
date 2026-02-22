@@ -100,6 +100,7 @@ export default function AdminUsersPage() {
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
             <input
               type="text"
+              aria-label="Rechercher un utilisateur"
               placeholder="Rechercher un utilisateur..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
@@ -162,6 +163,7 @@ export default function AdminUsersPage() {
                       <td className="px-6 py-4">
                         <select
                           value={user.role}
+                          aria-label={`Rôle de ${user.name}`}
                           onChange={(e) => handleRoleChange(user.id, e.target.value)}
                           disabled={user.id === currentUser?.id}
                           className={`
