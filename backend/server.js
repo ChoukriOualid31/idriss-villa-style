@@ -24,6 +24,10 @@ const app = express();
 const prisma = new PrismaClient();
 const PORT = process.env.PORT || 5000;
 
+// Required behind proxies/load balancers (Vercel/Render/Nginx) so req.ip
+// and express-rate-limit work correctly with X-Forwarded-For.
+app.set('trust proxy', 1);
+
 // Security middleware
 app.use(helmet({
   crossOriginResourcePolicy: { policy: 'cross-origin' },
