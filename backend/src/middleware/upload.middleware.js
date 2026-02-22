@@ -3,19 +3,32 @@ const path = require('path');
 const { v4: uuidv4 } = require('uuid');
 const fs = require('fs');
 
-// Ensure upload directories exist
+const isServerless = process.env.NODE_ENV === 'production' || process.env.VERCEL;
+
+// Upload directories (only relevant in local/dev)
 const uploadDirs = {
   properties: path.join(__dirname, '../../uploads/properties'),
 };
 
-Object.values(uploadDirs).forEach(dir => {
-  if (!fs.existsSync(dir)) {
-    fs.mkdirSync(dir, { recursive: true });
-  }
-});
+// Only attempt local dir creation in development
+if (!isServerless) {
+  Object.values(uploadDirs).forEach(dir => {
+    try {
+      if (!fs.existsSync(dir)) {
+        fs.mkdirSync(dir, { recursive: true });
+      }
+    } catch (e) {
+      // Ignore — read-only filesystem
+    }
+  });
+}
 
-// Configure storage
+// In production (Vercel), use memory storage because the local filesystem is
+// ephemeral and read-only. Integrate Cloudinary/S3 for persistent file storage.
 const createStorage = (folderName) => {
+  if (isServerless) {
+    return multer.memoryStorage();
+  }
   return multer.diskStorage({
     destination: (req, file, cb) => {
       cb(null, uploadDirs[folderName]);

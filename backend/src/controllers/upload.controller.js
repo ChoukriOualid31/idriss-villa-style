@@ -1,6 +1,8 @@
 const path = require('path');
 const fs = require('fs');
 
+const isServerless = process.env.NODE_ENV === 'production' || process.env.VERCEL;
+
 /**
  * Upload single image
  * POST /api/upload/image
@@ -10,6 +12,15 @@ const uploadImage = (req, res) => {
     return res.status(400).json({
       status: 'error',
       message: 'Aucune image fournie',
+    });
+  }
+
+  // In serverless (Vercel) the file is in memory only — disk storage unavailable.
+  // Integrate Cloudinary or Vercel Blob for persistent image hosting in production.
+  if (isServerless || !req.file.filename) {
+    return res.status(503).json({
+      status: 'error',
+      message: 'Le stockage de fichiers local n est pas disponible en production. Utilisez un service de stockage cloud (Cloudinary, S3…).',
     });
   }
 
@@ -36,6 +47,13 @@ const uploadImages = (req, res) => {
     return res.status(400).json({
       status: 'error',
       message: 'Aucune image fournie',
+    });
+  }
+
+  if (isServerless || !req.files[0].filename) {
+    return res.status(503).json({
+      status: 'error',
+      message: 'Le stockage de fichiers local n est pas disponible en production. Utilisez un service de stockage cloud (Cloudinary, S3…).',
     });
   }
 
