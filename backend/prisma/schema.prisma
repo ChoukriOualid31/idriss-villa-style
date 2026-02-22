@@ -52,16 +52,30 @@ model Property {
 
 model SiteContent {
   id                       String   @id @default("global")
-  aboutAdminNote           String   @db.Text
-  contactHeaderTitle       String
-  contactHeaderDescription String   @db.Text
-  contactPhone             String
-  contactEmail             String
-  contactAddress           String   @db.Text
-  contactHours             String
-  instagramUrl             String   @default("")
-  facebookUrl              String   @default("")
-  whatsappUrl              String   @default("")
+  // About page
+  aboutHeroTitle           String   @default("Une agence immobiliere moderne, orientee resultat")
+  aboutHeroDescription     String   @db.Text @default("Idriss Villa Style combine expertise terrain, outils digitaux et accompagnement humain pour vous aider a vendre, acheter ou louer dans les meilleures conditions.")
+  aboutAgencyDescription   String   @db.Text @default("Fondee sur des valeurs de confiance et de transparence, notre agence place chaque client au centre de son action. Nous mettons notre connaissance du marche local au service de vos projets immobiliers, qu il s agisse d une premiere acquisition ou d un investissement stratégique.")
+  aboutAdminNote           String   @db.Text @default("Cette page A propos peut etre mise a jour depuis l espace Admin (contenu, chiffres et sections).")
+  aboutMetric1Value        String   @default("500+")
+  aboutMetric1Label        String   @default("Biens verifies")
+  aboutMetric2Value        String   @default("1000+")
+  aboutMetric2Label        String   @default("Clients accompagnes")
+  aboutMetric3Value        String   @default("10+")
+  aboutMetric3Label        String   @default("Annees d experience")
+  aboutMetric4Value        String   @default("98%")
+  aboutMetric4Label        String   @default("Satisfaction client")
+  // Contact page
+  contactHeaderTitle       String   @default("Contactez-nous")
+  contactHeaderDescription String   @db.Text @default("Notre equipe est a votre disposition pour repondre a toutes vos questions et vous accompagner dans votre projet immobilier.")
+  contactPhone             String   @default("+212 600 00 00 00")
+  contactEmail             String   @default("contact@idrissvilla.com")
+  contactAddress           String   @db.Text @default("123 Avenue Mohammed V, Tanger, Maroc")
+  contactHours             String   @default("Lun - Ven: 9h00 - 18h00")
+  // Social
+  instagramUrl             String   @default("https://instagram.com")
+  facebookUrl              String   @default("https://facebook.com")
+  whatsappUrl              String   @default("https://wa.me/212600000000")
   updatedAt                DateTime @updatedAt
 
   @@map("site_content")

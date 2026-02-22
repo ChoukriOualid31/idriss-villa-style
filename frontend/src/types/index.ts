@@ -92,13 +92,27 @@ export interface AuthResponse {
 
 export interface SiteContent {
   id: string;
+  // About page
+  aboutHeroTitle: string;
+  aboutHeroDescription: string;
+  aboutAgencyDescription: string;
   aboutAdminNote: string;
+  aboutMetric1Value: string;
+  aboutMetric1Label: string;
+  aboutMetric2Value: string;
+  aboutMetric2Label: string;
+  aboutMetric3Value: string;
+  aboutMetric3Label: string;
+  aboutMetric4Value: string;
+  aboutMetric4Label: string;
+  // Contact page
   contactHeaderTitle: string;
   contactHeaderDescription: string;
   contactPhone: string;
   contactEmail: string;
   contactAddress: string;
   contactHours: string;
+  // Social
   instagramUrl: string;
   facebookUrl: string;
   whatsappUrl: string;

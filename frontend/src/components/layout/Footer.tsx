@@ -9,20 +9,26 @@ import { siteContentApi } from '@/lib/api';
 export function Footer() {
   const currentYear = new Date().getFullYear();
 
-  const [socialLinks, setSocialLinks] = useState({
+  const [siteInfo, setSiteInfo] = useState({
     instagramUrl: 'https://instagram.com',
     facebookUrl: 'https://facebook.com',
     whatsappUrl: 'https://wa.me/212600000000',
+    contactPhone: '+212 600 00 00 00',
+    contactEmail: 'contact@idrissvilla.com',
+    contactAddress: '123 Avenue Mohammed V, Tanger, Maroc',
   });
 
   useEffect(() => {
     siteContentApi.getPublic().then((res) => {
       const content = res.data?.data?.content;
       if (content) {
-        setSocialLinks({
+        setSiteInfo({
           instagramUrl: content.instagramUrl || 'https://instagram.com',
           facebookUrl: content.facebookUrl || 'https://facebook.com',
           whatsappUrl: content.whatsappUrl || 'https://wa.me/212600000000',
+          contactPhone: content.contactPhone || '+212 600 00 00 00',
+          contactEmail: content.contactEmail || 'contact@idrissvilla.com',
+          contactAddress: content.contactAddress || '123 Avenue Mohammed V, Tanger, Maroc',
         });
       }
     }).catch(() => {});
@@ -75,7 +81,7 @@ export function Footer() {
 
             <div className="flex space-x-4">
               <a
-                href={socialLinks.instagramUrl}
+                href={siteInfo.instagramUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 bg-dark-800 rounded-lg flex items-center justify-center text-gray-400 hover:bg-gold-500 hover:text-dark-950 transition-all hover:-translate-y-0.5"
@@ -83,7 +89,7 @@ export function Footer() {
                 <Instagram className="w-5 h-5" />
               </a>
               <a
-                href={socialLinks.facebookUrl}
+                href={siteInfo.facebookUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 bg-dark-800 rounded-lg flex items-center justify-center text-gray-400 hover:bg-gold-500 hover:text-dark-950 transition-all hover:-translate-y-0.5"
@@ -91,7 +97,7 @@ export function Footer() {
                 <Facebook className="w-5 h-5" />
               </a>
               <a
-                href={socialLinks.whatsappUrl}
+                href={siteInfo.whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 bg-dark-800 rounded-lg flex items-center justify-center text-gray-400 hover:bg-gold-500 hover:text-dark-950 transition-all hover:-translate-y-0.5"
@@ -134,26 +140,26 @@ export function Footer() {
             <ul className="space-y-4">
               <li className="flex items-start space-x-3">
                 <MapPin className="w-5 h-5 text-gold-500 mt-0.5 flex-shrink-0" />
-                <span className="text-gray-400 text-sm">
-                  123 Avenue Mohammed V<br />
-                  Tanger, Maroc
-                </span>
+                <span className="text-gray-400 text-sm">{siteInfo.contactAddress}</span>
               </li>
               <li className="flex items-center space-x-3">
                 <Phone className="w-5 h-5 text-gold-500 flex-shrink-0" />
                 <a
-                  href="https://wa.me/212600000000"
+                  href={siteInfo.whatsappUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-gray-400 hover:text-gold-500 transition-colors text-sm"
                 >
-                  +212 600 00 00 00
+                  {siteInfo.contactPhone}
                 </a>
               </li>
               <li className="flex items-center space-x-3">
                 <Mail className="w-5 h-5 text-gold-500 flex-shrink-0" />
-                <a href="mailto:contact@idrissvilla.com" className="text-gray-400 hover:text-gold-500 transition-colors text-sm">
-                  contact@idrissvilla.com
+                <a
+                  href={`mailto:${siteInfo.contactEmail}`}
+                  className="text-gray-400 hover:text-gold-500 transition-colors text-sm"
+                >
+                  {siteInfo.contactEmail}
                 </a>
               </li>
             </ul>
